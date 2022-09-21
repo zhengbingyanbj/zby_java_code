@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.IcuPatientMiMapper">
+    
+    <resultMap type="IcuPatientMi" id="IcuPatientMiResult">
+        <result property="rid"    column="rid"    />
+        <result property="name"    column="name"    />
+        <result property="zyNo"    column="zy_no"    />
+        <result property="age"    column="age"    />
+        <result property="recordNo"    column="record_no"    />
+        <result property="level"    column="level"    />
+        <result property="weight"    column="weight"    />
+        <result property="kg"    column="kg"    />
+        <result property="gender"    column="gender"    />
+        <result property="bedNo"    column="bed_no"    />
+        <result property="bloodType"    column="blood_type"    />
+        <result property="height"    column="height"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="doctor"    column="doctor"    />
+        <result property="dept"    column="dept"    />
+        <result property="nurse"    column="nurse"    />
+        <result property="ward"    column="ward"    />
+        <result property="mmhgPart"    column="mmHg_part"    />
+        <result property="inTime"    column="in_time"    />
+        <result property="outTime"    column="out_time"    />
+        <result property="surgeryName"    column="surgery_name"    />
+        <result property="diagnose"    column="diagnose"    />
+        <result property="allergy"    column="allergy"    />
+        <result property="hr"    column="hr"    />
+        <result property="nbp"    column="nbp"    />
+        <result property="pr"    column="pr"    />
+        <result property="spo2"    column="spo2"    />
+        <result property="mzDoc"    column="mz_doc"    />
+    </resultMap>
+
+    <sql id="selectIcuPatientMiVo">
+        select rid, name, zy_no, age, record_no, level, weight, kg, gender, bed_no, blood_type, height, birthday, doctor, dept, nurse, ward, mmHg_part, in_time, out_time, surgery_name, diagnose, allergy, hr, nbp, pr, spo2,mz_doc from icu_patient_mi
+    </sql>
+
+    <select id="selectIcuPatientMiList" parameterType="IcuPatientMi" resultMap="IcuPatientMiResult">
+        <include refid="selectIcuPatientMiVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="zyNo != null  and zyNo != ''"> and zy_no = #{zyNo}</if>
+            <if test="age != null "> and age = #{age}</if>
+            <if test="recordNo != null  and recordNo != ''"> and record_no = #{recordNo}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+            <if test="kg != null  and kg != ''"> and kg = #{kg}</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="bedNo != null  and bedNo != ''"> and bed_no = #{bedNo}</if>
+            <if test="bloodType != null  and bloodType != ''"> and blood_type = #{bloodType}</if>
+            <if test="height != null "> and height = #{height}</if>
+            <if test="birthday != null  and birthday != ''"> and birthday = #{birthday}</if>
+            <if test="doctor != null  and doctor != ''"> and doctor = #{doctor}</if>
+            <if test="dept != null  and dept != ''"> and dept = #{dept}</if>
+            <if test="nurse != null  and nurse != ''"> and nurse = #{nurse}</if>
+            <if test="ward != null  and ward != ''"> and ward = #{ward}</if>
+            <if test="mmhgPart != null  and mmhgPart != ''"> and mmHg_part = #{mmhgPart}</if>
+            <if test="inTime != null  and inTime != ''"> and in_time = #{inTime}</if>
+            <if test="outTime != null "> and out_time = #{outTime}</if>
+            <if test="surgeryName != null  and surgeryName != ''"> and surgery_name like concat('%', #{surgeryName}, '%')</if>
+            <if test="diagnose != null  and diagnose != ''"> and diagnose = #{diagnose}</if>
+            <if test="allergy != null  and allergy != ''"> and allergy = #{allergy}</if>
+            <if test="hr != null  and hr != ''"> and hr = #{hr}</if>
+            <if test="nbp != null  and nbp != ''"> and nbp = #{nbp}</if>
+            <if test="pr != null  and pr != ''"> and pr = #{pr}</if>
+            <if test="spo2 != null  and spo2 != ''"> and spo2 = #{spo2}</if>
+            <if test="mzDoc != null  and mzDoc != ''"> and mz_doc = #{mzDoc}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(u.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectIcuPatientMiByRid" parameterType="Long" resultMap="IcuPatientMiResult">
+        <include refid="selectIcuPatientMiVo"/>
+        where rid = #{rid}
+    </select>
+        
+    <insert id="insertIcuPatientMi" parameterType="IcuPatientMi" useGeneratedKeys="true" keyProperty="rid">
+        insert into icu_patient_mi
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="zyNo != null">zy_no,</if>
+            <if test="age != null">age,</if>
+            <if test="recordNo != null">record_no,</if>
+            <if test="level != null">level,</if>
+            <if test="weight != null">weight,</if>
+            <if test="kg != null">kg,</if>
+            <if test="gender != null">gender,</if>
+            <if test="bedNo != null">bed_no,</if>
+            <if test="bloodType != null">blood_type,</if>
+            <if test="height != null">height,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="doctor != null">doctor,</if>
+            <if test="dept != null">dept,</if>
+            <if test="nurse != null">nurse,</if>
+            <if test="ward != null">ward,</if>
+            <if test="mmhgPart != null">mmHg_part,</if>
+            <if test="inTime != null">in_time,</if>
+            <if test="outTime != null">out_time,</if>
+            <if test="surgeryName != null">surgery_name,</if>
+            <if test="diagnose != null">diagnose,</if>
+            <if test="allergy != null">allergy,</if>
+            <if test="hr != null">hr,</if>
+            <if test="nbp != null">nbp,</if>
+            <if test="pr != null">pr,</if>
+            <if test="spo2 != null">spo2,</if>
+            <if test="mzDoc != null">mz_doc,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="zyNo != null">#{zyNo},</if>
+            <if test="age != null">#{age},</if>
+            <if test="recordNo != null">#{recordNo},</if>
+            <if test="level != null">#{level},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="kg != null">#{kg},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="bedNo != null">#{bedNo},</if>
+            <if test="bloodType != null">#{bloodType},</if>
+            <if test="height != null">#{height},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="doctor != null">#{doctor},</if>
+            <if test="dept != null">#{dept},</if>
+            <if test="nurse != null">#{nurse},</if>
+            <if test="ward != null">#{ward},</if>
+            <if test="mmhgPart != null">#{mmhgPart},</if>
+            <if test="inTime != null">#{inTime},</if>
+            <if test="outTime != null">#{outTime},</if>
+            <if test="surgeryName != null">#{surgeryName},</if>
+            <if test="diagnose != null">#{diagnose},</if>
+            <if test="allergy != null">#{allergy},</if>
+            <if test="hr != null">#{hr},</if>
+            <if test="nbp != null">#{nbp},</if>
+            <if test="pr != null">#{pr},</if>
+            <if test="spo2 != null">#{spo2},</if>
+            <if test="mzDoc != null">#{mzDoc},</if>
+         </trim>
+    </insert>
+
+    <update id="updateIcuPatientMi" parameterType="IcuPatientMi">
+        update icu_patient_mi
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="zyNo != null">zy_no = #{zyNo},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="recordNo != null">record_no = #{recordNo},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="kg != null">kg = #{kg},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="bedNo != null">bed_no = #{bedNo},</if>
+            <if test="bloodType != null">blood_type = #{bloodType},</if>
+            <if test="height != null">height = #{height},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="doctor != null">doctor = #{doctor},</if>
+            <if test="dept != null">dept = #{dept},</if>
+            <if test="nurse != null">nurse = #{nurse},</if>
+            <if test="ward != null">ward = #{ward},</if>
+            <if test="mmhgPart != null">mmHg_part = #{mmhgPart},</if>
+            <if test="inTime != null">in_time = #{inTime},</if>
+            <if test="outTime != null">out_time = #{outTime},</if>
+            <if test="surgeryName != null">surgery_name = #{surgeryName},</if>
+            <if test="diagnose != null">diagnose = #{diagnose},</if>
+            <if test="allergy != null">allergy = #{allergy},</if>
+            <if test="hr != null">hr = #{hr},</if>
+            <if test="nbp != null">nbp = #{nbp},</if>
+            <if test="pr != null">pr = #{pr},</if>
+            <if test="spo2 != null">spo2 = #{spo2},</if>
+            <if test="mzDoc != null">mz_doc = #{mzDoc},</if>
+        </trim>
+        where rid = #{rid}
+    </update>
+
+    <delete id="deleteIcuPatientMiByRid" parameterType="Long">
+        delete from icu_patient_mi where rid = #{rid}
+    </delete>
+
+    <delete id="deleteIcuPatientMiByRids" parameterType="String">
+        delete from icu_patient_mi where rid in 
+        <foreach item="rid" collection="array" open="(" separator="," close=")">
+            #{rid}
+        </foreach>
+    </delete>
+
+    <select id="selectIcuPatientBed" resultType="IcuPatientMi">
+        select * from icu_patient_mi where bed_no = #{bedNo}
+    </select>
+</mapper>

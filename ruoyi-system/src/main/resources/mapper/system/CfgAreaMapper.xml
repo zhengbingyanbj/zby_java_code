@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CfgAreaMapper">
+    
+    <resultMap type="CfgArea" id="CfgAreaResult">
+        <result property="caId"    column="ca_id"    />
+        <result property="parentAreaCode"    column="parent_area_code"    />
+        <result property="areaLevel"    column="area_level"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="firstLetter"    column="first_letter"    />
+        <result property="territoryCode"    column="territory_code"    />
+        <result property="territoryName"    column="territory_name"    />
+        <result property="sort"    column="sort"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="postCode"    column="post_code"    />
+        <result property="hisAreaCode"    column="his_area_code"    />
+        <result property="hisAreaName"    column="his_area_name"    />
+        <result property="hisRowId"    column="his_row_id"    />
+    </resultMap>
+
+    <sql id="selectCfgAreaVo">
+        select ca_id, parent_area_code, area_level, area_code, area_name, first_letter, territory_code, territory_name, sort, is_deleted, UPDATE_TIME, CREATE_TIME, post_code, his_area_code, his_area_name, his_row_id from cfg_area
+    </sql>
+
+    <select id="selectCfgAreaList" parameterType="CfgArea" resultMap="CfgAreaResult">
+        <include refid="selectCfgAreaVo"/>
+        <where>  
+            <if test="parentAreaCode != null  and parentAreaCode != ''"> and parent_area_code = #{parentAreaCode}</if>
+            <if test="areaLevel != null "> and area_level = #{areaLevel}</if>
+            <if test="areaCode != null  and areaCode != ''"> and area_code = #{areaCode}</if>
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+            <if test="firstLetter != null  and firstLetter != ''"> and first_letter = #{firstLetter}</if>
+            <if test="territoryCode != null  and territoryCode != ''"> and territory_code = #{territoryCode}</if>
+            <if test="territoryName != null  and territoryName != ''"> and territory_name like concat('%', #{territoryName}, '%')</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="postCode != null  and postCode != ''"> and post_code = #{postCode}</if>
+            <if test="hisAreaCode != null  and hisAreaCode != ''"> and his_area_code = #{hisAreaCode}</if>
+            <if test="hisAreaName != null  and hisAreaName != ''"> and his_area_name like concat('%', #{hisAreaName}, '%')</if>
+            <if test="hisRowId != null "> and his_row_id = #{hisRowId}</if>
+        </where>
+    </select>
+    
+    <select id="selectCfgAreaByCaId" parameterType="Long" resultMap="CfgAreaResult">
+        <include refid="selectCfgAreaVo"/>
+        where ca_id = #{caId}
+    </select>
+        
+    <insert id="insertCfgArea" parameterType="CfgArea" useGeneratedKeys="true" keyProperty="caId">
+        insert into cfg_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentAreaCode != null">parent_area_code,</if>
+            <if test="areaLevel != null">area_level,</if>
+            <if test="areaCode != null and areaCode != ''">area_code,</if>
+            <if test="areaName != null and areaName != ''">area_name,</if>
+            <if test="firstLetter != null">first_letter,</if>
+            <if test="territoryCode != null">territory_code,</if>
+            <if test="territoryName != null">territory_name,</if>
+            <if test="sort != null">sort,</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="postCode != null">post_code,</if>
+            <if test="hisAreaCode != null">his_area_code,</if>
+            <if test="hisAreaName != null">his_area_name,</if>
+            <if test="hisRowId != null">his_row_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentAreaCode != null">#{parentAreaCode},</if>
+            <if test="areaLevel != null">#{areaLevel},</if>
+            <if test="areaCode != null and areaCode != ''">#{areaCode},</if>
+            <if test="areaName != null and areaName != ''">#{areaName},</if>
+            <if test="firstLetter != null">#{firstLetter},</if>
+            <if test="territoryCode != null">#{territoryCode},</if>
+            <if test="territoryName != null">#{territoryName},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="isDeleted != null and isDeleted != ''">#{isDeleted},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="postCode != null">#{postCode},</if>
+            <if test="hisAreaCode != null">#{hisAreaCode},</if>
+            <if test="hisAreaName != null">#{hisAreaName},</if>
+            <if test="hisRowId != null">#{hisRowId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCfgArea" parameterType="CfgArea">
+        update cfg_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentAreaCode != null">parent_area_code = #{parentAreaCode},</if>
+            <if test="areaLevel != null">area_level = #{areaLevel},</if>
+            <if test="areaCode != null and areaCode != ''">area_code = #{areaCode},</if>
+            <if test="areaName != null and areaName != ''">area_name = #{areaName},</if>
+            <if test="firstLetter != null">first_letter = #{firstLetter},</if>
+            <if test="territoryCode != null">territory_code = #{territoryCode},</if>
+            <if test="territoryName != null">territory_name = #{territoryName},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="isDeleted != null and isDeleted != ''">is_deleted = #{isDeleted},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="postCode != null">post_code = #{postCode},</if>
+            <if test="hisAreaCode != null">his_area_code = #{hisAreaCode},</if>
+            <if test="hisAreaName != null">his_area_name = #{hisAreaName},</if>
+            <if test="hisRowId != null">his_row_id = #{hisRowId},</if>
+        </trim>
+        where ca_id = #{caId}
+    </update>
+
+    <delete id="deleteCfgAreaByCaId" parameterType="Long">
+        delete from cfg_area where ca_id = #{caId}
+    </delete>
+
+    <delete id="deleteCfgAreaByCaIds" parameterType="String">
+        delete from cfg_area where ca_id in 
+        <foreach item="caId" collection="array" open="(" separator="," close=")">
+            #{caId}
+        </foreach>
+    </delete>
+</mapper>

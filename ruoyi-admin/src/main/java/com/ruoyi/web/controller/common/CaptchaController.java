@@ -39,6 +39,11 @@ public class CaptchaController
     
     @Autowired
     private ISysConfigService configService;
+
+    public static void main(String[] args) {
+
+    }
+
     /**
      * 生成验证码
      */

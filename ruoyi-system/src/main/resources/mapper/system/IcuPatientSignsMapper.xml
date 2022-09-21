@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.IcuPatientSignsMapper">
+    
+    <resultMap type="IcuPatientSigns" id="IcuPatientSignsResult">
+        <result property="rid"    column="rid"    />
+        <result property="patientId"    column="patient_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="heartRate"    column="heart_rate"    />
+        <result property="mmhg"    column="mmHg"    />
+        <result property="oximeter"    column="oximeter"    />
+        <result property="dbp"    column="dbp"    />
+        <result property="sbp"    column="sbp"    />
+        <result property="abel"    column="abel"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="pulse"    column="pulse"    />
+    </resultMap>
+
+    <sql id="selectIcuPatientSignsVo">
+        select rid, patient_id, create_time, heart_rate, mmHg, oximeter, dbp, sbp, abel, temperature, pulse from icu_patient_signs
+    </sql>
+
+    <select id="selectIcuPatientSignsList" parameterType="IcuPatientSigns" resultMap="IcuPatientSignsResult">
+        <include refid="selectIcuPatientSignsVo"/>
+        <where>  
+            <if test="patientId != null "> and patient_id = #{patientId}</if>
+            <if test="heartRate != null  and heartRate != ''"> and heart_rate = #{heartRate}</if>
+            <if test="mmhg != null  and mmhg != ''"> and mmHg = #{mmhg}</if>
+            <if test="oximeter != null  and oximeter != ''"> and oximeter = #{oximeter}</if>
+            <if test="dbp != null  and dbp != ''"> and dbp = #{dbp}</if>
+            <if test="sbp != null  and sbp != ''"> and sbp = #{sbp}</if>
+            <if test="abel != null  and abel != ''"> and abel = #{abel}</if>
+            <if test="temperature != null  and temperature != ''"> and temperature = #{temperature}</if>
+            <if test=" pulse != null  and pulse != ''"> and pulse = #{pulse}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectIcuPatientSignsByRid" parameterType="Long" resultMap="IcuPatientSignsResult">
+        <include refid="selectIcuPatientSignsVo"/>
+        where rid = #{rid}
+    </select>
+        
+    <insert id="insertIcuPatientSigns" parameterType="IcuPatientSigns" useGeneratedKeys="true" keyProperty="rid">
+        insert into icu_patient_signs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patientId != null">patient_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="heartRate != null">heart_rate,</if>
+            <if test="mmhg != null">mmHg,</if>
+            <if test="oximeter != null">oximeter,</if>
+            <if test="dbp != null">dbp,</if>
+            <if test="sbp != null">sbp,</if>
+            <if test="abel != null">abel,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test=" pulse != null"> pulse,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patientId != null">#{patientId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="heartRate != null">#{heartRate},</if>
+            <if test="mmhg != null">#{mmhg},</if>
+            <if test="oximeter != null">#{oximeter},</if>
+            <if test="dbp != null">#{dbp},</if>
+            <if test="sbp != null">#{sbp},</if>
+            <if test="abel != null">#{abel},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test=" pulse != null">#{ pulse},</if>
+         </trim>
+    </insert>
+
+    <update id="updateIcuPatientSigns" parameterType="IcuPatientSigns">
+        update icu_patient_signs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="patientId != null">patient_id = #{patientId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="heartRate != null">heart_rate = #{heartRate},</if>
+            <if test="mmhg != null">mmHg = #{mmhg},</if>
+            <if test="oximeter != null">oximeter = #{oximeter},</if>
+            <if test="dbp != null">dbp = #{dbp},</if>
+            <if test="sbp != null">sbp = #{sbp},</if>
+            <if test="abel != null">abel = #{abel},</if>
+            <if test="temperature != null">temperature = #{temperature},</if>
+            <if test=" pulse != null"> pulse = #{ pulse},</if>
+        </trim>
+        where rid = #{rid}
+    </update>
+
+    <delete id="deleteIcuPatientSignsByRid" parameterType="Long">
+        delete from icu_patient_signs where rid = #{rid}
+    </delete>
+
+    <delete id="deleteIcuPatientSignsByRids" parameterType="String">
+        delete from icu_patient_signs where rid in 
+        <foreach item="rid" collection="array" open="(" separator="," close=")">
+            #{rid}
+        </foreach>
+    </delete>
+</mapper>
